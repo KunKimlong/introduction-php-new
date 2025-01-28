@@ -43,8 +43,13 @@ insertEmployee();
 
 function getEmployee(){
     global $connection;
-
-    $sql = "SELECT * FROM `tbl_employee`";
+    if(!(isset($_GET['page']))){
+        $page = 1;
+    }else{
+        $page = $_GET['page'];
+    }
+    $show = ($page*5)-5;
+    $sql = "SELECT * FROM `tbl_employee` LIMIT $show,5";
 
     $rs = $connection->query($sql); //rs = result set
     if($rs){
@@ -129,3 +134,54 @@ function updateEmployee(){
 }
 
 updateEmployee();
+
+
+function searchEmployee(){
+    global $connection;
+    if(isset($_POST['btn-search'])){
+        $name = $_POST['search'];
+
+        $sql = "SELECT * FROM `tbl_employee` WHERE `first_name` LIKE '%$name%' || `last_name` LIKE '%$name%'";
+        $rs = $connection->query($sql); //rs = result set
+        if($rs){
+            while($row = mysqli_fetch_assoc($rs)){ // get data from result set
+                // print_r($row);
+                echo '
+                    <tr>
+                        <td>'.$row['id'].'</td>
+                        <td>'.$row['first_name'].'</td>
+                        <td>'.$row['last_name'].'</td>
+                        <td>'.$row['gender'].'</td>
+                        <td>'.$row['position'].'</td>
+                        <td>'.$row['salary'].'</td>
+                        <td class="d-flex justify-content-center">
+
+                            <button type="button" class="btn btn-outline-warning me-2" id="btn-open-update" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                Update
+                            </button>
+
+                            <form action="" method="POST">          
+                                <input type="hidden" name="removeId" value="'.$row['id'].'"> 
+                                <button class="btn btn-outline-danger" name="btn-delete"> <i class="bi bi-trash3"></i> Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                ';
+            }
+        }
+    }
+}
+
+function getPagination(){
+    global $connection;
+    $sql = "SELECT COUNT('id') AS 'total' FROM tbl_employee";
+    $rs = $connection->query($sql);
+    $gettotal = mysqli_fetch_assoc($rs);
+    $total = $gettotal['total'];
+    $pages = ceil($total/5);
+    for($i = 1;$i<=$pages;$i++){
+        echo '
+            <li><a href="?page='.$i.'">'.$i.'</a></li>
+        ';
+    }
+}

@@ -38,12 +38,13 @@
             <button type="button" class="btn btn-primary" id="btn-open-add" data-bs-toggle="modal" data-bs-target="#exampleModal">
                 + Add
             </button>
-            <form action="" class="d-flex">
-                <input type="text" name="" id="" class="form-control" placeholder="Search">
-                <button class="btn btn-outline-success">Search</button>
+            <form action="" class="d-flex" method="POST">
+                <input type="text" name="search" id="" class="form-control" placeholder="Search">
+                <button name="btn-search" class="btn btn-outline-success">Search</button>
+                <button class="btn btn-outline-danger">Back</button>
             </form>
         </div>
-        <table class="table table-hover table-dark text-center">
+        <table class="table table-hover table-dark text-center text-light">
             <tr>
                 <th>ID</th>
                 <th>First name</th>
@@ -53,12 +54,17 @@
                 <th>Salary</th>
                 <th>Action</th>
             </tr>
-            <?php getEmployee(); ?>
+            <?php if(isset($_POST['btn-search'])){
+                    searchEmployee();
+                }
+                else{
+                    getEmployee();
+                }
+            ?>
         </table>
         <div class="text-light">
             <ul>
-                <li><a href="">1</a></li>
-                <li><a href="">2</a></li>
+                <?php getPagination(); ?>
             </ul>
         </div>
     </div>
