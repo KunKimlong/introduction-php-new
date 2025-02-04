@@ -57,11 +57,19 @@
               </a>
             </li>
             <li class="sidebar-item">
-              <a class="sidebar-link" href="updateStudent.php" aria-expanded="false">
+              <a class="sidebar-link" href="addTeacher.php" aria-expanded="false">
                 <span>
                   <i class="ti ti-layout-dashboard"></i>
                 </span>
-                <span class="hide-menu">Update Student</span>
+                <span class="hide-menu">Add Teachers</span>
+              </a>
+            </li>
+            <li class="sidebar-item">
+              <a class="sidebar-link" href="viewTeacher.php" aria-expanded="false">
+                <span>
+                  <i class="ti ti-layout-dashboard"></i>
+                </span>
+                <span class="hide-menu">List Teachers</span>
               </a>
             </li>
           </ul>
