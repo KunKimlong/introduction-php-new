@@ -46,7 +46,7 @@ function getTeacher()
                 </td>
                 <td>
                     <a href="updateTeacher.php?id='.$row['id'].'" class="btn btn-warning">Update</a>
-                    <button class="btn btn-danger">Update</button>
+                    <button class="btn btn-danger" id="btn-delete" data-bs-toggle="modal" data-bs-target="#deleteTeacher">Delete</button>
                 </td>
             </tr>
         ';
@@ -76,4 +76,14 @@ function updateTeacher(){
               
     }
 }
-updateTeacher();
+updateTeacher();//calling function 
+
+
+function removeTeacher(){
+    global $connection;
+    if(isset($_POST['btn-remove-teacher'])){
+        $remove_id = $_POST['remove_value'];
+        $rs = $connection->query("DELETE FROM `tbl_teacher` WHERE `id`=$remove_id");
+    }
+}
+
