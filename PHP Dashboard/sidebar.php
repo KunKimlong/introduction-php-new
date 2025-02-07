@@ -7,9 +7,16 @@
   <title>Modernize Free</title>
   <link rel="shortcut icon" type="image/png" href="assets/images/logos/favicon.png" />
   <link rel="stylesheet" href="assets/css/styles.min.css" />
+  <style>
+    img{
+      max-width: 150px;
+      max-height: 100px;
+    }
+  </style>
 </head>
 
 <body>
+  
   <!--  Body Wrapper -->
   <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
     data-sidebar-position="fixed" data-header-position="fixed">
@@ -81,6 +88,8 @@
     <!--  Sidebar End -->
     <!--  Main wrapper -->
     <div class="body-wrapper">
+
+    <?php include('function.php') ?>
       <!--  Header Start -->
       <header class="app-header">
         <nav class="navbar navbar-expand-lg navbar-light">
@@ -127,4 +136,4 @@
           </div>
         </nav>
       </header>
-      <!--  Header End -->
+      <!--  Header End -->        
