@@ -1,4 +1,3 @@
-
 <!-- Modal -->
 <div class="modal fade" id="deleteTeacher" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
@@ -9,40 +8,31 @@
       </div>
       <div class="modal-body">
         <form action="" method="POST">
-          <h3>Are you sure that you want to delete a teacher?</h3>
-          <input type="text" name="remove_value" id="remove_teacher_id">
-          <div class="modal-footer">
+          <h3>Are you sure to remove this teacher?</h3>
+          <input type="hidden" name="remove_value" id="remove_teaceher_id">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="submit" name="btn-remove-teacher" class="btn btn-danger">Save</button>
-        </div>
+          <button type="submit" name="btn-remove-teacher" class="btn btn-primary">Save changes</button>
         </form>
       </div>
-     
     </div>
   </div>
 </div>
-
 </div>
   </div>
   <script src="assets/libs/jquery/dist/jquery.min.js"></script>
   <script src="assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
   <script src="assets/js/sidebarmenu.js"></script>
-  <script src="assets/js/app.min.js"></script>
-  <script src="assets/libs/apexcharts/dist/apexcharts.min.js"></script>
-  <script src="assets/libs/simplebar/dist/simplebar.js"></script>
-  <script src="assets/js/dashboard.js"></script>
   <script>
     $(document).ready(function(){
       // $('#btn-delete').click(function(){
-        
-      // });
+      //   alert(123);
+      // })
       $(document).on('click','#btn-delete',function(){
-          // console.log($(this).parent('td').parent('tr').find('td').eq(0).text());
-          var id = $(this).parent('td').parent('tr').find('td').eq(0).text();
-          
-          $('#remove_teacher_id').val(id);
-      });
-    });
+        // console.log($(this).parent('td').parent('tr').find('td').eq(0).text());
+        var id = $(this).parent('td').parent('tr').find('td').eq(0).text();
+        $('#remove_teaceher_id').val(id)
+      })
+    })
   </script>
 </body>
 

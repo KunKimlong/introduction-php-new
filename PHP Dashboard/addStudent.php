@@ -24,6 +24,11 @@
                     <input type="date" name="" id="" class="my-2 form-control">
                     <label for="">Phone Number</label>
                     <input type="text" name="phone_number" id="" class="my-2 form-control" placeholder="Phone Number">
+                    <label for="">Teacher</label>
+                    <select name="" id="" class="form-select my-2">
+                        <option value="" disabled selected>--- Select Teacher ---</option>
+                        <?php getTeacherToOption(); ?>
+                    </select>
                     <label for="">Profile</label>
                     <input type="file" name="" id="" class="my-2 form-control">
                     <button class="btn btn-success">Submit</button>
