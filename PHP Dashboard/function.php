@@ -130,3 +130,82 @@ function getTeacherToOption(){
         echo '<option value="'.$row['id'].'">'.$prefix.$row['first_name'].' '.$row['last_name'].'</option>';
     }
 }
+
+// add student to database
+function createStudent(){
+    global $connection;
+    // print_r($_POST);
+    if(isset($_POST['btn-submit-student'])){
+        $first_name = $_POST['first_name'];
+        $last_name = $_POST['last_name'];
+        $gender = $_POST['gender'];
+        $teacher = $_POST['teacher'];
+        $email = $_POST['email'];
+        $date_of_birth = $_POST['date_of_birth'];
+        $phone_number = $_POST['phone_number'];
+        $profile = $_FILES['profile']['name'];
+
+        if(!empty($first_name) && !empty($last_name) 
+            && !empty($gender) && !empty($teacher)
+            && !empty($email) && !empty($date_of_birth)
+            && !empty($phone_number) && !empty($profile)
+        ){
+
+            $profile = rand(1,99999).'-'.$profile;
+            $path = 'assets/profile/'.$profile;
+            move_uploaded_file($_FILES['profile']['tmp_name'],$path);
+
+            $sql = "INSERT INTO `tbl_students`(`first_name`, `last_name`, `gender`, `email`, `date_of_birth`, `phone_number`, `profile`, `teacher_id`) 
+            VALUES ('$first_name','$last_name','$gender','$email','$date_of_birth','$phone_number','$profile','$teacher')";
+
+            $rs  = $connection->query($sql);
+            if($rs){
+                showSweetAlert("Insert Success","Student insert success fully","success");
+            }
+        }
+        else{
+            showSweetAlert("Insert Error","Please input all student field","error");
+        }
+    }
+
+}
+createStudent();
+
+function getStudent(){
+    global $connection;
+    $rs = $connection->query("SELECT * FROM `tbl_students` ORDER BY `id` DESC");
+    while($row = mysqli_fetch_assoc($rs)){
+        echo '
+            <tr>
+                <td>'.$row['id'].'</td>
+                <td>'.$row['first_name'].'</td>
+                <td>'.$row['last_name'].'</td>
+                <td>'.$row['gender'].'</td>
+                <td>'.$row['email'].'</td>
+                <td>'.$row['phone_number'].'</td>
+                <td>'.$row['teacher_id'].'</td>
+                <td>'.$row['date_of_birth'].'</td>
+                <td>
+                    <img src="assets/profile/'.$row['profile'].'" width="150px" height="200">
+                </td>
+                <td>
+                    <a href="updateTeacher.php?id='.$row['id'].'" class="btn btn-warning">Update</a>
+                    <button class="btn btn-danger" remove-id="'.$row['id'].'" id="btn-delete-student" data-bs-toggle="modal" data-bs-target="#deleteStudent">Delete</button>
+                </td>
+            </tr>
+        ';
+    }
+}
+
+function removeStudent(){
+    global $connection;
+    if(isset($_POST['btn-remove-student'])){
+        $id = $_POST['remove_value'];
+
+        $rs = $connection->query("DELETE FROM `tbl_students` WHERE `id`='$id'");
+        if($rs){
+            showSweetAlert("Remove Success","Student has been removed from class","success");
+        }
+    }
+}
+removeStudent();
