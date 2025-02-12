@@ -121,13 +121,14 @@ function removeTeacher(){
 removeTeacher();
 
 // get all teacher full name and id to display as option for adding student
-function getTeacherToOption(){
+function getTeacherToOption($teacher_id=0){
     global $connection;
     $sql = "SELECT `id`, `first_name`, `last_name`,`gender` FROM `tbl_teacher` ORDER BY `id` DESC";
     $rs  = $connection->query($sql);
     while($row = mysqli_fetch_assoc($rs)){
         $prefix = $row['gender'] == "Male" ? "Mr. ": "Ms. ";
-        echo '<option value="'.$row['id'].'">'.$prefix.$row['first_name'].' '.$row['last_name'].'</option>';
+        $selected = $row['id'] == $teacher_id ? "selected" : "";
+        echo '<option value="'.$row['id'].'" '.$selected.'>'.$prefix.$row['first_name'].' '.$row['last_name'].'</option>';
     }
 }
 
@@ -173,7 +174,9 @@ createStudent();
 
 function getStudent(){
     global $connection;
-    $rs = $connection->query("SELECT * FROM `tbl_students` ORDER BY `id` DESC");
+    $sql = "SELECT `t_s`.*,`t_t`.`first_name` AS `t_first_name`,`t_t`.`last_name` AS `t_last_name` FROM `tbl_students` AS `t_s` 
+            INNER JOIN `tbl_teacher` AS `t_t` ON `t_s`.`teacher_id` = `t_t`.`id` ORDER BY `t_s`.`id` DESC";
+    $rs = $connection->query($sql);
     while($row = mysqli_fetch_assoc($rs)){
         echo '
             <tr>
@@ -183,13 +186,13 @@ function getStudent(){
                 <td>'.$row['gender'].'</td>
                 <td>'.$row['email'].'</td>
                 <td>'.$row['phone_number'].'</td>
-                <td>'.$row['teacher_id'].'</td>
+                <td>'.$row['t_first_name'].' '.$row['t_last_name'].'</td>
                 <td>'.$row['date_of_birth'].'</td>
                 <td>
                     <img src="assets/profile/'.$row['profile'].'" width="150px" height="200">
                 </td>
                 <td>
-                    <a href="updateTeacher.php?id='.$row['id'].'" class="btn btn-warning">Update</a>
+                    <a href="updateStudent.php?id='.$row['id'].'" class="btn btn-warning">Update</a>
                     <button class="btn btn-danger" remove-id="'.$row['id'].'" id="btn-delete-student" data-bs-toggle="modal" data-bs-target="#deleteStudent">Delete</button>
                 </td>
             </tr>
@@ -209,3 +212,43 @@ function removeStudent(){
     }
 }
 removeStudent();
+
+function updateStudent(){
+    global $connection;
+    if(isset($_POST['btn-update-student'])){
+        $first_name = $_POST['first_name'];
+        $last_name = $_POST['last_name'];
+        $gender = $_POST['gender'];
+        $teacher = $_POST['teacher'];
+        $email = $_POST['email'];
+        $date_of_birth = $_POST['date_of_birth'];
+        $phone_number = $_POST['phone_number'];
+        $profile = $_FILES['profile']['name'];
+        $update_id = $_POST['update_id'];
+
+        if(empty($profile)){
+            $profile = $_POST['old_profile'];
+        }
+        else{
+            $profile = rand(1,99999).'-'.$profile;
+            $path = 'assets/profile/'.$profile;
+            move_uploaded_file($_FILES['profile']['tmp_name'],$path);
+        }
+
+        if(!empty($first_name) && !empty($last_name) 
+            && !empty($gender) && !empty($teacher)
+            && !empty($email) && !empty($date_of_birth)
+            && !empty($phone_number) && !empty($profile)
+        ){
+            $sql = "UPDATE `tbl_students` SET `first_name`='$first_name',`last_name`='$last_name',`gender`='$gender',`email`='$email',`date_of_birth`='$date_of_birth',`phone_number`='$phone_number',`profile`='$profile',`teacher_id`='$teacher' WHERE `id`='$update_id'";
+            $rs  = $connection->query($sql);
+            if($rs){
+                showSweetAlert("Update Success","Student update success fully","success");
+            }
+        }
+        else{
+            showSweetAlert("Update Error","Please input all student field","error");
+        }
+    }
+}
+updateStudent();

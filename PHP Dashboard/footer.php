@@ -29,7 +29,7 @@
       <div class="modal-body">
         <form action="" method="POST">
           <h3>Are you sure to remove this student?</h3>
-          <input type="text" name="remove_value" id="remove_student_id">
+          <input type="hidden" name="remove_value" id="remove_student_id">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
           <button type="submit" name="btn-remove-student" class="btn btn-primary">Save changes</button>
         </form>
