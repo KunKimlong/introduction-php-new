@@ -5,9 +5,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ajax</title>
+    <!-- bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <!-- jquery -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>  
+    <!-- sweet alert -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
 <body>
@@ -28,17 +32,9 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>1</td>
-                    <td><img src="Image/user-1.jpg" alt="" style="max-width: 120px;"></td>
-                    <td>Sok Dara</td>
-                    <td>Male</td>
-                    <td>0123456</td>
-                    <td>
-                        <button class="btn btn-warning">Edit</button>
-                        <button class="btn btn-danger">Remove</button>
-                    </td>
-                </tr>
+                <?php
+                    include('get.php');
+                ?>
             </tbody>
         </table>
     </div>
@@ -67,8 +63,8 @@
                             <option value="Male">Male</option>
                             <option value="Female">Female</option>
                         </select>
-                        <label for="txt-name">Phone Number:</label>
-                        <input type="text" name="" class="form-control my-2" id="txt-name" placeholder="Phone Number">
+                        <label for="txt-phone-number">Phone Number:</label>
+                        <input type="text" name="" class="form-control my-2" id="txt-phone-number" placeholder="Phone Number">
                         <label for="profile">Profile</label>
                         <input type="file" name="profileName" id="profile" class="form-control my-2">
                         <label for="profile">
@@ -77,8 +73,8 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
+                    <button type="button" class="btn btn-secondary" id="btn-close" data-bs-dismiss="modal">Close</button>
+                    <button type="button" id="btn-save" class="btn btn-success">Save</button>
                 </div>
             </div>
         </div>
@@ -86,6 +82,16 @@
 </body>
 <script>
     $(document).ready(function(){
+      
+        function clear(){
+            $('#txt-name').val('');
+            $('#txt-gender').val('Male');
+            $('#txt-phone-number').val('');
+            $('#profile').val('');
+            $('#show-profile').attr('alt','');
+            $('#show-profile').attr('src','Image/default.jpg');
+        }
+
         // $('#show-profile').click(function(){
         //     $('#profile').click();
         // });
@@ -103,10 +109,67 @@
                 method:'POST',
                 success:function(response){
                     $('#show-profile').attr('src','Image/'+response);
+                    $('#show-profile').attr('alt',response);
                     // console.log(response);                    
                 }
             });
         });
+
+        $('#btn-save').click(function(){
+           var Name = $('#txt-name').val();
+           var gender = $('#txt-gender').val();
+           var phone_number = $('#txt-phone-number').val();
+           var profile = $('#show-profile').attr('alt');
+
+           $.ajax({
+                url: 'save.php',
+                method:'POST',
+                // data:{
+                //     Name:Name,
+                //     gender:gender,
+                //     phone_number:phone_number,
+                //     profile:profile,
+                // }
+                data:{
+                    Name,
+                    gender,
+                    phone_number,
+                    profile,
+                },
+                success:function(response){
+                    console.log(response);
+                    
+                    if(response){
+                        var  text = `
+                            <tr>
+                                <td>${response}</td>
+                                <td><img src="Image/${profile}" alt="" style="max-width: 120px;"></td>
+                                <td>${Name}</td>
+                                <td>${gender}</td>
+                                <td>${phone_number}</td>
+                                <td>
+                                    <button class="btn btn-warning">Edit</button>
+                                    <button class="btn btn-danger">Remove</button>
+                                </td>
+                            </tr>
+                        
+                        `;
+                        $('tbody').append(text);
+                        clear();
+                        $('#btn-close').click();    
+                        Swal.fire({
+                            title: "Succes",
+                            text: "That thing is still around?",
+                            icon: "success",
+                            timer: 3000, // 3s
+                        });
+                        
+                    }
+                    
+                }
+           });
+        });
+
     })
 </script>
 </html>
