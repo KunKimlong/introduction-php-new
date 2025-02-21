@@ -17,7 +17,7 @@
 <body>
     <div class="container bg-dark text-center p-3">
         <h1 class="text-light">Ajax Employee Crud</h1>
-        <button type="button" class="btn btn-primary float-end" data-bs-toggle="modal" data-bs-target="#exampleModal">
+        <button type="button" id="btn-open-add" class="btn btn-primary float-end" data-bs-toggle="modal" data-bs-target="#exampleModal">
             + Employee
         </button>
         <table class="table table-hover table-dark align-middle">
@@ -38,14 +38,6 @@
             </tbody>
         </table>
     </div>
-
-
-
-
-
-    <!-- Button trigger modal -->
-
-
     <!-- Modal -->
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -56,6 +48,7 @@
                 </div>
                 <div class="modal-body">
                     <form action="">
+                        <input type="text" name="" id="id-txt">
                         <label for="txt-name">Name:</label>
                         <input type="text" name="" class="form-control my-2" id="txt-name" placeholder="Name">
                         <label for="txt-gender">Gender:</label>
@@ -75,101 +68,14 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" id="btn-close" data-bs-dismiss="modal">Close</button>
                     <button type="button" id="btn-save" class="btn btn-success">Save</button>
+                    <button type="button" id="btn-update" class="btn btn-warning">Update</button>
                 </div>
             </div>
         </div>
     </div>
 </body>
-<script>
-    $(document).ready(function(){
-      
-        function clear(){
-            $('#txt-name').val('');
-            $('#txt-gender').val('Male');
-            $('#txt-phone-number').val('');
-            $('#profile').val('');
-            $('#show-profile').attr('alt','');
-            $('#show-profile').attr('src','Image/default.jpg');
-        }
-
-        // $('#show-profile').click(function(){
-        //     $('#profile').click();
-        // });
-        $('#profile').change(function(){
-            var formData = new FormData();
-            var profile = $('#profile')[0].files[0];
-            formData.append('profileName',profile)
-            
-            $.ajax({
-                url:'move-upload.php',
-                data:formData,
-                contentType:false,
-                processData:false,
-                cache:false,
-                method:'POST',
-                success:function(response){
-                    $('#show-profile').attr('src','Image/'+response);
-                    $('#show-profile').attr('alt',response);
-                    // console.log(response);                    
-                }
-            });
-        });
-
-        $('#btn-save').click(function(){
-           var Name = $('#txt-name').val();
-           var gender = $('#txt-gender').val();
-           var phone_number = $('#txt-phone-number').val();
-           var profile = $('#show-profile').attr('alt');
-
-           $.ajax({
-                url: 'save.php',
-                method:'POST',
-                // data:{
-                //     Name:Name,
-                //     gender:gender,
-                //     phone_number:phone_number,
-                //     profile:profile,
-                // }
-                data:{
-                    Name,
-                    gender,
-                    phone_number,
-                    profile,
-                },
-                success:function(response){
-                    console.log(response);
-                    
-                    if(response){
-                        var  text = `
-                            <tr>
-                                <td>${response}</td>
-                                <td><img src="Image/${profile}" alt="" style="max-width: 120px;"></td>
-                                <td>${Name}</td>
-                                <td>${gender}</td>
-                                <td>${phone_number}</td>
-                                <td>
-                                    <button class="btn btn-warning">Edit</button>
-                                    <button class="btn btn-danger">Remove</button>
-                                </td>
-                            </tr>
-                        
-                        `;
-                        $('tbody').append(text);
-                        clear();
-                        $('#btn-close').click();    
-                        Swal.fire({
-                            title: "Succes",
-                            text: "That thing is still around?",
-                            icon: "success",
-                            timer: 3000, // 3s
-                        });
-                        
-                    }
-                    
-                }
-           });
-        });
-
-    })
-</script>
+<!-- call script.php -->
+<?php 
+    include('script.php')
+?>
 </html>

@@ -7,12 +7,12 @@ while ($row = mysqli_fetch_assoc($rs)) {
     echo '
             <tr>
                     <td>'.$row['id'].'</td>
-                    <td><img src="Image/'.$row['profile'].'" alt="" style="max-width: 120px;"></td>
+                    <td><img src="Image/'.$row['profile'].'" alt="'.$row['profile'].'" style="max-width: 120px;"></td>
                     <td>'.$row['name'].'</td>
                     <td>'.$row['gender'].'</td>
                     <td>'.$row['phone_number'].'</td>
                     <td>
-                        <button class="btn btn-warning">Edit</button>
+                        <button id="btn-open-update" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#exampleModal">Edit</button>
                         <button class="btn btn-danger">Remove</button>
                     </td>
                 </tr>
