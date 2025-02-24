@@ -13,7 +13,7 @@ while ($row = mysqli_fetch_assoc($rs)) {
                     <td>'.$row['phone_number'].'</td>
                     <td>
                         <button id="btn-open-update" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#exampleModal">Edit</button>
-                        <button class="btn btn-danger">Remove</button>
+                        <button class="btn btn-danger" data-bs-toggle="modal" id="btn-open-remove" data-bs-target="#removeModal">Remove</button>
                     </td>
                 </tr>
         ';

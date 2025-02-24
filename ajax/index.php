@@ -38,6 +38,27 @@
             </tbody>
         </table>
     </div>
+
+<!-- Modal -->
+<div class="modal fade" id="removeModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <h4>Are you sure that you want to remove?</h4>
+      </div>
+      <div class="modal-footer">
+        <button type="button" id="btn-close" class="btn btn-success" data-bs-dismiss="modal">Close</button>
+        <button type="button" id="btn-remove" class="btn btn-danger">Save</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
     <!-- Modal -->
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -48,7 +69,7 @@
                 </div>
                 <div class="modal-body">
                     <form action="">
-                        <input type="text" name="" id="id-txt">
+                        <input type="hidden" name="" id="id-txt">
                         <label for="txt-name">Name:</label>
                         <input type="text" name="" class="form-control my-2" id="txt-name" placeholder="Name">
                         <label for="txt-gender">Gender:</label>
