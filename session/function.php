@@ -278,3 +278,27 @@ function register(){
     }
 }
 register();
+
+function login(){
+    global $connection;
+    if(isset($_POST['btn-login'])){
+        $email = $_POST['email'];
+        $password = md5($_POST['password']);
+
+        $sql = "SELECT `id` FROM `users` WHERE `email`='$email' AND `password`='$password'";
+        $rs = $connection->query($sql);
+        $row = mysqli_fetch_assoc($rs);
+        if($row){
+            session_start();
+
+            $_SESSION['id'] = $row['id'];
+            // echo $_SESSION['id'];''
+            header('location: index.php');
+        }
+        else{
+            showSweetAlert('Error','User not found','error');
+        }
+        
+    }
+}
+login();

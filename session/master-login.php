@@ -121,8 +121,8 @@
         }
     </style>
 </head>
+
+<body class="d-flex align-items-center">
 <?php
 include('function.php')
 ?>
-
-<body class="d-flex align-items-center">

@@ -21,6 +21,7 @@
                 <input type="file" name="profile" id="" class="form-control">
             </div>
             <button class="btn btn-primary w-100 py-2" name="btn-register" type="submit">Register</button>
+            <a href="login.php">Already have an account?</a>
             <p class="mt-5 mb-3 text-body-secondary">&copy; 2017–2024</p>
         </form>
     </main>
