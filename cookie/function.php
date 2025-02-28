@@ -1,7 +1,8 @@
 <?php
 
+date_default_timezone_set('Asia/Phnom_Penh');
+
 $connection = new mysqli('localhost', 'root', '', 'db_school');
-session_start();
 // if($connection){
 //     echo "<script>
 //         alert('connect to db success')
@@ -290,8 +291,7 @@ function login(){
         $rs = $connection->query($sql);
         $row = mysqli_fetch_assoc($rs);
         if($row){
-            $_SESSION['id'] = $row['id'];
-            // echo $_SESSION['id'];''
+            setcookie('id',$row['id'],time()+60*60*24,'/');
             header('location: index.php');
         }
         else{
@@ -305,8 +305,8 @@ login();
 
 function logout(){
     if(isset($_POST['btn-logout'])){
-        // session_destroy();
-        unset($_SESSION['id']);
+        setcookie('id',0,time(),'/'); //set to expired
+        header('location: login.php');
     }
 }
 logout();

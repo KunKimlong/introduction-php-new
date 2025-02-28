@@ -19,10 +19,10 @@
 <body>
 <?php 
       include('function.php');
-        if(!isset($_SESSION['id'])){
+        if(!isset($_COOKIE['id'])){
           header('location: login.php');
         }
-        $id = $_SESSION['id'];
+        $id = $_COOKIE['id'];
         $rs = $connection->query("SELECT * FROM `users` WHERE `id` = '$id'");
         $row = mysqli_fetch_assoc($rs);
      ?>
